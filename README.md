@@ -1,3 +1,15 @@
+---
+title: AI Academic Research Assistant
+emoji: 🔬
+colorFrom: indigo
+colorTo: blue
+sdk: gradio
+sdk_version: "5.15.0"
+python_version: "3.10"
+app_file: main_app.py
+pinned: false
+---
+
 # AI Academic Research Assistant — Complete Production Starter
 
 A complete final-year project starter using:

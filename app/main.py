@@ -24,10 +24,6 @@ app.include_router(auth_router)
 app.include_router(document_router)
 app.include_router(chat_router)
 
-@app.get("/")
-def root():
-    return {"message": settings.APP_NAME, "environment": settings.APP_ENV}
-
 @app.get("/health")
 def health():
     db_ok = True
