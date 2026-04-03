@@ -10,108 +10,88 @@ app_file: main_app.py
 pinned: false
 ---
 
-# AI Academic Research Assistant — Complete Production Starter
+# 🔬 AI Academic Research Assistant — Comprehensive Technical Overview
 
-A complete final-year project starter using:
+This project is a sophisticated AI-driven platform designed to assist researchers in analyzing academic papers. It leverages Large Language Models (LLMs) to perform complex tasks like summarization, comparative analysis, and structured Q&A.
 
-- Python
-- FastAPI
-- Gradio
-- PostgreSQL
-- OpenAI API
-- Agent-based routing
-- JWT authentication
+## 🌟 Enhanced Features
 
-## Features
+- **Multi-Format Extraction**: Supports PDF, DOCX, TXT, and Markdown files.
+- **Intelligent Agents**: 
+  - **Summarizer**: Condenses long research papers into key takeaways.
+  - **Citation Agent**: Extracts references and identifies primary authors.
+  - **QA Agent**: Context-aware answering based on specific document content.
+  - **Comparison Agent**: Side-by-side analysis of two different research papers.
+- **Secure Authentication**: JWT-based user registration and login system.
+- **Per-User Isolation**: Documents are securely tied to individual user accounts.
+- **Cloud-Ready**: Optimized for deployment on Hugging Face Spaces.
 
-- User registration and login
-- Upload PDF, TXT, MD, DOCX
-- Per-user document ownership
-- Summarization
-- Question answering
-- Citation extraction
-- Document comparison
-- PostgreSQL persistence
-- Gradio frontend
-- Sample fine-tuning dataset
-- Health check and test starter
+## 🛠️ Technology Stack & Tools
 
-## Project Structure
+### Core Technologies
+- **Python 3.10**: The backbone of the application.
+- **Gradio 5.15.0**: Used for the interactive, premium web interface.
+- **Google Gemini 3.1 Pro**: The primary LLM engine for all AI operations.
+- **SQLite & SQLAlchemy**: Efficient local database storage for users and document metadata.
 
-```text
-ai_research_assistant_complete/
-├── app/
-│   ├── agents/
-│   ├── api/
-│   ├── core/
-│   ├── db/
-│   ├── frontend/
-│   ├── models/
-│   ├── schemas/
-│   ├── services/
-│   └── utils/
-├── data/fine_tune/
-├── sql/
-├── tests/
-├── requirements.txt
-├── .env.example
-└── run.py
-```
+### Libraries & Frameworks
+- **File Processing**: `PyPDF2` (PDFs), `python-docx` (Word files).
+- **Security**: `passlib` (BCrypt hashing), `python-jose` (JSON Web Tokens).
+- **Backend**: `FastAPI` (available for API extension), `Uvicorn` (ASGI server).
+- **Environment**: `python-dotenv` for managing API keys and secrets.
 
-## Setup
+---
 
-### 1. Create database
+## 🧪 Quick Start with Samples
 
-```sql
-CREATE DATABASE research_db;
-```
+To test the application immediately:
+1. Go to the **Upload & Documents** tab.
+2. Navigate to the `samples/` directory in this project.
+3. You will find several high-quality research papers prepared for you:
+   - `Cultural Diversity in Team Performance.pdf`
+   - `STEM Education in Underrepresented.pdf`
+   - `Sleep Deprivation and Academic Performance.pdf`
+   - `Social Media and Mental Health.pdf`
+   - `Virtual Reality in Cognitive Rehabilitation.pdf`
+   - `sample_ai_ethics.txt` (Text version)
+   - `sample_climate_change.txt` (Text version)
+4. Upload any of these and use the **Chat** and **Compare** tabs to see the AI in action!
 
-### 2. Install dependencies
+---
 
-```bash
-python -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
+## 📂 Project Preparation & Structure
 
-### 3. Configure environment
+The project is architected using a modular design to ensure scalability and maintainability.
 
-Copy `.env.example` to `.env` and set values.
+### Workflow involved in Preparation:
+1. **DB Schema Design**: Defined SQLAlchemy models for `User` and `Document` to handle relationships.
+2. **Agent Orchestration**: Developed specialized scripts in `app/agents/` to handle different AI prompts and logic.
+3. **Frontend Implementation**: Built a multi-tabbed Gradio interface in `app/frontend/gradio_ui.py` with custom CSS for a premium feel.
+4. **Hugging Face Optimization**: Created `main_app.py` as a lightweight entry point that initializes the DB and launches the UI without needing complex threading.
+5. **Security Integration**: Implemented password hashing and JWT token generation to ensure data privacy.
 
-### 4. Run backend
+### Key Modules:
+- `app/agents/`: Logic for AI personalities (Summarizer, QA, etc.).
+- `app/services/`: Core business logic (auth, document processing, Gemini integration).
+- `app/db/`: Database initialization and session management.
+- `app/frontend/`: The User Interface definitions and theme tokens.
 
-```bash
-python run.py
-```
+---
 
-### 5. Run Gradio frontend
+## 🚀 Deployment to Hugging Face
 
-```bash
-python -m app.frontend.gradio_ui
-```
+To deploy this project successfully, the following steps were taken:
+1. **Environment Config**: Created a `requirements.txt` specifically for the HF environment.
+2. **Metadata Header**: Included a YAML frontmatter in `README.md` to define the Gradio SDK and Python version.
+3. **Database Initialization**: Added `init_db()` in the main entry point to ensure tables are ready upon container startup.
+4. **Secret Management**: Configured `GOOGLE_API_KEY` as a Space Secret on Hugging Face.
 
-## API Endpoints
+---
 
-- `GET /health`
-- `POST /api/auth/register`
-- `POST /api/auth/login`
-- `POST /api/documents/upload`
-- `GET /api/documents`
-- `POST /api/chat`
-- `POST /api/compare`
+## 📝 Future Scope
+- **Vector Database**: Transitioning to ChromaDB or FAISS for handling extremely large document libraries.
+- **Collaborative Features**: Allowing researchers to share document libraries for group projects.
+- **Real-time Collaboration**: Integration with WebSockets for multi-user chat sessions.
 
-## Notes
-
-- Tables are auto-created on startup.
-- This is a strong submission-ready starter.
-- For live deployment, add HTTPS, background task queue, and stronger rate limiting.
-
-## Fine-Tuning
-
-Sample JSONL is included in `data/fine_tune/training_data.jsonl`.
-
-## Testing
-
-```bash
-pytest
-```
+---
+*Created for Final Year Project Submission | Academic Research Assistant v1.0*

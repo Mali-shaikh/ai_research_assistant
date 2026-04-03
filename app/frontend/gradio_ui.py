@@ -1,6 +1,7 @@
 import os
 import gradio as gr
 
+
 # ─── Theme & CSS ──────────────────────────────────────────────────────────────
 THEME = gr.themes.Soft(primary_hue="indigo", secondary_hue="slate")
 CSS = """
@@ -46,9 +47,9 @@ def register(full_name, email, password):
         payload = RegisterRequest(full_name=full_name, email=email, password=password)
         user = register_user(db, payload)
         db.close()
-        return {"message": "✅ Registered successfully!", "email": user.email, "id": user.id}
+        return f"✅ Registered successfully! Email: {user.email} | ID: {user.id}"
     except Exception as e:
-        return {"error": str(e)}
+        return f"❌ {str(e)}" 
 
 
 def login(email, password):
@@ -80,31 +81,43 @@ def fetch_documents(token):
     except Exception:
         return gr.update(choices=[], value=None)
 
-
-def upload_document(file_path, token):
+def upload_document(file_obj, token):
     user = get_user_from_token(token)
     if not user:
         return "⚠️ Please login first.", gr.update()
-    if file_path is None:
+    if file_obj is None:
         return "⚠️ Please choose a file.", gr.update()
+
     try:
         from app.db.session import SessionLocal
         from app.services.document_service import extract_text
         from app.services.repository_service import create_document, create_chunks
         from app.utils.text import chunk_text
+
+        file_path = file_obj.name if hasattr(file_obj, "name") else str(file_obj)
         filename = os.path.basename(file_path)
+
         extracted_text = extract_text(file_path)
         if not extracted_text.strip():
             return "❌ Could not extract text from file.", gr.update()
+
         db = SessionLocal()
         ext = os.path.splitext(filename)[1].lower()
-        doc = create_document(db=db, owner_id=user.id, title=filename,
-                              file_path=file_path, file_type=ext, content_text=extracted_text)
+        doc = create_document(
+            db=db,
+            owner_id=user.id,
+            title=filename,
+            file_path=file_path,
+            file_type=ext,
+            content_text=extracted_text
+        )
         create_chunks(db, doc.id, chunk_text(extracted_text))
         db.close()
         return f"✅ Uploaded: {filename}", fetch_documents(token)
+
     except Exception as e:
         return f"❌ Upload failed: {str(e)}", gr.update()
+        
 
 
 def send_chat(message, history, token, selected_doc):
@@ -195,7 +208,8 @@ with gr.Blocks(title="AI Academic Research Assistant", theme=THEME, css=CSS) as 
                 reg_email    = gr.Textbox(label="Email", placeholder="jane@example.com")
                 reg_password = gr.Textbox(label="Password", type="password")
                 reg_btn      = gr.Button("Register", variant="primary")
-                reg_output   = gr.JSON(label="Response")
+                reg_output   = gr.Textbox(label="Response", interactive=False)
+ 
             with gr.Column():
                 gr.Markdown("### Login")
                 login_email    = gr.Textbox(label="Email", placeholder="jane@example.com")

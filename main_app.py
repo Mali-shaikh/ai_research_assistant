@@ -10,6 +10,11 @@ from app.db.init_db import init_db
 init_db()
 
 # 2. Import and launch the Gradio app
-from app.frontend.gradio_ui import demo
+from app.frontend.gradio_ui import demo, THEME, CSS
 
-demo.launch(server_name="0.0.0.0", server_port=7860)
+demo.launch(
+    server_name="0.0.0.0",
+    server_port=7860,
+    debug=True,
+    show_error=True
+    )
